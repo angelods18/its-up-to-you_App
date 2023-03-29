@@ -1,0 +1,7 @@
+{
+  "name": "itsup2u",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
