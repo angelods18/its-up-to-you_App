@@ -1,14 +1,18 @@
-import {NgModule, isDevMode} from '@angular/core';
+import {APP_INITIALIZER, NgModule, isDevMode} from '@angular/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { HeaderComponent } from './layout/header/header.component';
-import { LayoutModule } from './layout/layout.module';
-
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { AppConfigService } from './service/app-config.service';
+import { SharedModule } from './layout/shared.module';
 
 @NgModule({
   declarations: [
   ],
   imports: [
-    LayoutModule,
+    SharedModule,
+    CommonModule,
+    HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
@@ -17,6 +21,7 @@ import { LayoutModule } from './layout/layout.module';
     })
   ],
   exports:[
+    CommonModule
   ],
   providers: [
   ],

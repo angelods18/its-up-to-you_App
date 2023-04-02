@@ -1,0 +1,19 @@
+<ion-content>
+  <div class="login-page app-header-page">
+    <form>
+      <ion-item lines="full" >
+        <ion-input type="text" label ="Username" required name="username" [(ngModel)]="this.username"></ion-input>
+      </ion-item>
+      <ion-item lines="full" style="margin-top: 5%;">
+        <ion-input type="password" label ="Password" required name="password" [(ngModel)]="this.password"></ion-input>
+      </ion-item>
+      <ion-row>
+        <ion-col>
+          <ion-button type="submit" color="danger" expand="block" (click)="login()" style="margin-top: 5%;">Sign In</ion-button>
+          <a [routerLink]="['/forgot-password']" class="small-text">Forgot Password?</a>
+        </ion-col>
+      </ion-row>
+    </form>
+  </div>
+  
+</ion-content>

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { HeaderComponent } from '../header/header.component';
-import { LayoutModule } from '../layout.module';
 
 @Component({
   selector: 'app-home',
