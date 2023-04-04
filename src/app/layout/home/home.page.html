@@ -1,14 +1,19 @@
 <ion-content [fullscreen]="true" >
   <div class="auth-form app-header-page">
+    <ion-title>
+      Benvenuto su it's up to you!
+    </ion-title>
     <ion-grid>
       <ion-row>
         <ion-col align-self-center>
-          <ion-button [routerLink]="['/auth/registration']" expand="block" color="primary">Register</ion-button>
-          <span class="divider line one-line">or</span>
-          <span class="already">Already a user?</span>
-          <ion-button [routerLink]="['/auth/login']" expand="block" color="danger">Sign In</ion-button>
+          <!-- [routerLink]="['/auth/registration']" -->
+          <ion-button [routerLink]="['/auth/registration']" expand="block" color="primary">Registrati</ion-button>
+          <span class="divider line one-line"></span>
+          <span class="already">Sei già registrato?</span>
+          <ion-button [routerLink]="['/auth/login']" expand="block" color="danger">Accedi</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
   </div>
+  <app-toast trigger="open-toast" [durationVal]="'3000'" message="Ciao"></app-toast>
 </ion-content>

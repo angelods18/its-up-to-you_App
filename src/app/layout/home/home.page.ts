@@ -8,5 +8,6 @@ import { HeaderComponent } from '../header/header.component';
   styleUrls: ['home.page.scss']
 })
 export class HomePage {
+  
   constructor() {}
 }

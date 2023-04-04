@@ -6,13 +6,17 @@ import { TabsComponent } from './tabs/tabs.component';
 import { HeaderComponent } from './header/header.component';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
+import { SidemenuComponent } from './sidemenu/sidemenu.component';
+import { AppToastComponent } from './app-toast/app-toast.component';
 
 @NgModule({
     declarations:[
         HeaderComponent,
         TabsComponent,
         DashboardComponent,
-        HomePage
+        HomePage,
+        SidemenuComponent,
+        AppToastComponent
     ],
     imports:[
         IonicModule,

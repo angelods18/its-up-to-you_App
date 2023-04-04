@@ -19,8 +19,11 @@ export class LoginComponent  implements OnInit {
 
   login(){
     this.authService.login(this.username, this.password)
-    .subscribe(data => {
-      console.log(data);
+    .subscribe( (data:any) => {
+      // console.log(data);
+      if(data.token){
+        this.authService.setBearerToken(data.token);
+      }
     })
   }
 }
