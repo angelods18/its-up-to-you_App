@@ -3,12 +3,14 @@ import { Observable, throwError, from } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AuthService } from "../service/auth.service";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class HttpConfigInterceptor implements HttpInterceptor {
 
     constructor(
-        private authService: AuthService
+        private authService: AuthService,
+        private router: Router
     ) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler) : Observable<HttpEvent<any>> {
@@ -17,7 +19,8 @@ export class HttpConfigInterceptor implements HttpInterceptor {
             .pipe(
                 switchMap(token => {
                     console.log(token, "token");
-                    if (token) {
+                    if (token && 
+                        !request.url.includes('public')) {
                         request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
                     }
 
@@ -34,52 +37,27 @@ export class HttpConfigInterceptor implements HttpInterceptor {
                         }),
                         catchError((error: HttpErrorResponse) => {
                             const status =  error.status;
+                            console.log(error, "errore");
+                            if(status==401 && !request.url.includes('refresh') && token){
+                                this.authService.refresh().subscribe(
+                                    (refreshResp: any) => {
+                                        this.authService.setBearerToken(refreshResp.token);
+                                    },
+                                    err => {
+                                        this.authService.deleteBearerToken().then(() => {
+                                            console.log("refresh fallito, tornare a login");
+                                            this.router.navigate(['/home'])
+                                        })
+                                    }
+                                )
+                            }
                             const reason = error && error.error.reason ? error.error.reason : '';
 
                             // this.presentAlert(status, reason);
-                            return throwError(error);
+                            return throwError(() => new Error(error.message));
                         })
                     );
                 })
             )
-        // const tokenAuth = this.authService.getAuthToken().then(
-        //     tt => {
-        //         console.log(tt, "getAuthToken");
-        //     }
-        // );
-        // const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJEZXNhMTgiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaXNFbmFibGVkIjp0cnVlLCJleHAiOjE2ODA2NDY4MjQsImlhdCI6MTY4MDY0MzIyNDMyNn0.dqmz0znGOvLS1rvxhF5ug-3m_kkfj-59EIs6h01OTdI";
-        // // console.log(token);
-        // //Authentication by setting header with token value
-        // if (token) {
-        //     request = request.clone({
-        //     setHeaders: {
-        //         'Authorization': token
-        //     }
-        //     });
-        // }
-    
-        // if (!request.headers.has('Content-Type')) {
-        //     request = request.clone({
-        //     setHeaders: {
-        //         'content-type': 'application/json'
-        //     }
-        //     });
-        // }
-    
-        // request = request.clone({
-        //     headers: request.headers.set('Accept', 'application/json')
-        // });
-    
-        // return next.handle(request).pipe(
-        //     map((event: HttpEvent<any>) => {
-        //     if (event instanceof HttpResponse) {
-        //         console.log('event--->>>', event);
-        //     }
-        //     return event;
-        //     }),
-        //     catchError((error: HttpErrorResponse) => {
-        //     console.error(error);
-        //     return throwError(error);
-        //     }));
     }
 }

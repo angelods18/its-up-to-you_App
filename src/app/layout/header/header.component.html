@@ -1,5 +1,5 @@
-<ion-menu [type]="'overlay'" contentId="main-content">
-  <app-sidemenu style="height: 100%;"></app-sidemenu>
+<ion-menu [type]="'overlay'" contentId="main-content" (ionDidOpen)="openMenu()">
+  <app-sidemenu [username]="this.username" style="height: 100%;"></app-sidemenu>
 </ion-menu>
 <ion-header [translucent]="true" id="main-content">
   <ion-toolbar>

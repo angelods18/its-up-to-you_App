@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
@@ -12,7 +13,8 @@ export class LoginComponent  implements OnInit {
   password = '';
   
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit() {}
@@ -23,6 +25,8 @@ export class LoginComponent  implements OnInit {
       // console.log(data);
       if(data.token){
         this.authService.setBearerToken(data.token);
+        this.authService.setUsername(this.username);
+        this.router.navigate(['/main'])
       }
     })
   }

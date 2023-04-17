@@ -16,23 +16,31 @@ export class AppConfigService {
   }
 
   loadAppConfig(){
-    console.log(environment.production);
+    console.log(environment.production, "ambiente di produzione");
     if(environment.production){
-      return this.http.get('/assets/config/config-prod.json')
-      .subscribe(data => {
-          this.appConfig = data;
-      });
+      
+      return new Promise((resolve,reject) => {
+        return this.http.get('/assets/config/config-prod.json')
+        .subscribe(data => {
+            this.appConfig = data;
+            resolve(true)
+        });
+      })
     }else{
-      return this.http.get('/assets/config/config.json')
+      return new Promise((resolve,reject) => {
+        return this.http.get('/assets/config/config.json')
       .subscribe(data => {
           this.appConfig = data;
+          resolve(true)
       });
+      })
     }
     
   }
 
   get baseUrl() {
     if (!this.appConfig) {
+      // this.loadAppConfig();
       throw Error('Config file not loaded!');
     }
     if (this.appConfig.mode == "dev") {
